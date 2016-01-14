@@ -1,0 +1,14 @@
+*vertices 6
+1 "1" ellipse x_fact 1.22866290766363 y_fact 1.22866290766363 fos 3.5 bw 0.0  ic Emerald
+2 "2" ellipse x_fact 1.22866290766363 y_fact 1.22866290766363 fos 3.5 bw 0.0  ic Emerald
+3 "3" ellipse x_fact 1.22866290766363 y_fact 1.22866290766363 fos 3.5 bw 0.0  ic Emerald 
+4 "4" ellipse x_fact 1.22866290766363 y_fact 1.22866290766363 fos 3.5 bw 0.0  ic Emerald 
+5 "5" ellipse x_fact 1.22866290766363 y_fact 1.22866290766363 fos 3.5 bw 0.0  ic Emerald 
+6 "6" ellipse x_fact 1.22866290766363 y_fact 1.22866290766363 fos 3.5 bw 0.0  ic Emerald
+*edges
+1 2 1
+2 3 1
+1 6 1
+6 5 2
+5 4 1
+4 3 1

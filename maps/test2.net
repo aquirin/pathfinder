@@ -1,0 +1,10 @@
+*vertices 4
+1 "1" ellipse x_fact 1.22866290766363 y_fact 1.22866290766363 fos 3.5 bw 0.0  ic Emerald
+2 "2" ellipse x_fact 1.22866290766363 y_fact 1.22866290766363 fos 3.5 bw 0.0  ic Emerald
+3 "3" ellipse x_fact 1.22866290766363 y_fact 1.22866290766363 fos 3.5 bw 0.0  ic Emerald 
+4 "4" ellipse x_fact 1.22866290766363 y_fact 1.22866290766363 fos 3.5 bw 0.0  ic Emerald 
+*matrix
+0 1 4 5
+2 0 2 4
+1 4 0 1
+5 3 1 0
