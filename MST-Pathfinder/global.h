@@ -41,15 +41,15 @@
 typedef struct _SEDGE
 {
   int i, j;
-  float v;
+  double v;
 } SEDGE;
 
 /* VARIABLES */
 int q;		//parametro q para indicar el número de arcos max que puede tener un camino
-float **pfnet;	//si pfnet[i][j]=TRUE hay un enlace entre los nodos i y j
+double **pfnet;	//si pfnet[i][j]=TRUE hay un enlace entre los nodos i y j
 int num_nodos;	//numero de nodos de la matriz
 int num_edges;	// number of edges in the matrix
-float **pesos_originales;
+double **pesos_originales;
 SEDGE **vedges;
 int *compConnexe;
 int *compConnexeRank;
@@ -58,8 +58,8 @@ int *sameValuesNodes;   // Represent the index of the edges with the same values
 
 
 /* FUNCIONES Y PROCEDIMIENTOS*/
-float ** Matriz_dinamica_float(int nfil, int ncol);	//reserva memoria para una matriz de flotantes
-void Libera_matriz_dinamica_float (float **matriz, int nfils);	//libera memoria de una matriz de flotantes
+double ** Matriz_dinamica_float(int nfil, int ncol);	//reserva memoria para una matriz de flotantes
+void Libera_matriz_dinamica_float (double **matriz, int nfils);	//libera memoria de una matriz de flotantes
 void Input(int argc, char *argv[]);	//coge los datos de entrada y los guarda en las respectivas variables
 void Programacion_Dinamica ();	//Función que resuelve el problema mediante programación dinamica
 inline void ds_alloc(int n);

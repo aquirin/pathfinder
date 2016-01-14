@@ -7,9 +7,11 @@
 
 # For "valgrind -v --leak-check=yes --show-reachable=yes "
 #CFLAGS =  -g -c -O0 -Wall
+#EXE = mst-pathfinder-debug 
 
 # Normal way
 CFLAGS =  -c -O3 -Wall
+EXE = mst-pathfinder 
 
 # Ficheros .c
 
@@ -26,7 +28,8 @@ O = pfnet.o funciones.o routines.o
 
 # Compilacion final
 mst-pathfinder:	pfnet.o $(O)
-			gcc -o mst-pathfinder $(O) -lm
+			gcc -o $(EXE) $(O) -lm
 
 clean:
-	rm -rf mst-pathfinder *.o
+	rm -rf $(EXE) *.o
+

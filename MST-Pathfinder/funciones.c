@@ -19,7 +19,7 @@ void Input(int argc, char *argv[]){
   FILE *fich;
   int i, j, k;
   char cadena[1024];
-  float aux;
+  double aux;
 #if DEBUG == 2
   char debug_f1[256], *debug_f2, *debug_f3, *debug_f4, *debug_filename;
   time_t rawtime;
@@ -27,7 +27,7 @@ void Input(int argc, char *argv[]){
 #endif
 
   if(argc>3){
-	printf("\n[ERROR] - Formato de entrada incorrecto.\n\t\t ./pfnet [-|fichero_de_entrada]\n");
+	fprintf(stderr, "\n[ERROR] - Formato de entrada incorrecto.\n\t\t ./pfnet [-|fichero_de_entrada]\n");
 	exit(1);
 	}
 
@@ -37,14 +37,14 @@ void Input(int argc, char *argv[]){
       {
 	  fich = fopen(argv[1],"r");
 	  if(fich==NULL){
-	  	printf("\n[ERROR] - Apertura del fichero %s incorrecta.\n", argv[1]);
+	  	fprintf(stderr, "\n[ERROR] - Apertura del fichero %s incorrecta.\n", argv[1]);
 		exit(2);
 	  	}
 	}
 	
 #if DEBUG == 2
   time ( &rawtime );
-  sprintf(debug_f1, "KFDEBUG_%s.net", ctime (&rawtime));
+  fprintf(debug_f1, "KFDEBUG_%s.net", ctime (&rawtime));
   debug_f2 = strreplace_all(debug_f1, " ", "_");
   debug_f3 = strreplace_all(debug_f2, "\n", "");
   debug_f4 = strreplace_all(debug_f3, ":", "-");
@@ -54,7 +54,7 @@ void Input(int argc, char *argv[]){
   debug_file = fopen(debug_filename, "w");
   if(debug_file == NULL)
   {
-	printf("\n[ERROR] - Cannot open in write access the file '%s'.\n", debug_filename);
+	fprintf(stderr, "\n[ERROR] - Cannot open in write access the file '%s'.\n", debug_filename);
 	free(debug_filename);
 	exit(1);
   }
@@ -103,7 +103,7 @@ void Input(int argc, char *argv[]){
 	for(i=0; i<num_nodos; i++)
 		for(j=0; j<num_nodos; j++)
 			{
-			int reti = fscanf(fich,"%f",&aux);
+			int reti = fscanf(fich,"%lf",&aux);
 			USE(reti);
 			if((aux > 0) && (pesos_originales[i][j] == 0.0) && (i!=j))
 				num_edges++;
@@ -115,28 +115,67 @@ void Input(int argc, char *argv[]){
 	{
 	if(strncmp(cadena,"*edges",6)==0 || strncmp(cadena,"*Edges",6)==0 || strncmp(cadena,"*EDGES",6)==0)
 		{
-  		while( fscanf(fich, "%i %i %f", &i, &j, &aux) != EOF )
+		// DEBUG
+		//int d, debug[14];
+		//for(d=0; d<14; d++) debug[d]=0;
+		
+  		while( fscanf(fich, "%i %i %lf", &i, &j, &aux) != EOF )
 			{
 #if DEBUG == 1
 			if(pesos_originales[i-1][j-1] != 0.0)
 			  printf("@@ %d %d %f\n", i, j, pesos_originales[i-1][j-1]);
 #endif
-			if((aux > 0) && (pesos_originales[i-1][j-1] == 0.0))
-				num_edges++;
-			if((aux > 0) && (pesos_originales[j-1][i-1] == 0.0))
-				num_edges++;
+			// DEBUG
+			/*// edges = 243585
+			if((aux == 0.0) && (pesos_originales[i-1][j-1] == 0.0)) debug[0]++;
+			if((aux != 0.0) && (pesos_originales[i-1][j-1] == 0.0)) debug[1]++; // 122305
+			if((aux != 0.0) && (pesos_originales[i-1][j-1] == 0.0) && (pesos_originales[j-1][i-1] == 0)) debug[2]++; // 122305
+			if((aux != 0.0) && (pesos_originales[i-1][j-1] == 0.0) && (pesos_originales[j-1][i-1] != 0)) debug[3]++;
+			if((aux == 0.0) && (pesos_originales[i-1][j-1] != 0.0)) debug[4]++;
+			if((aux != 0.0) && (pesos_originales[i-1][j-1] != 0.0)) debug[5]++; // 121280
+			if((aux != 0.0) && (pesos_originales[i-1][j-1] != 0.0) && (fabs(pesos_originales[i-1][j-1]-aux)<0.0001)) debug[6]++; // 121277
+			if((aux != 0.0) && (pesos_originales[i-1][j-1] != 0.0) && (fabs(pesos_originales[i-1][j-1]-aux)>0.0001)) debug[7]++; // 3
+			if((aux != 0.0) && (pesos_originales[i-1][j-1] != 0.0) && (pesos_originales[j-1][i-1] == 0)) debug[12]++;
+			if((aux != 0.0) && (pesos_originales[i-1][j-1] != 0.0) && (pesos_originales[j-1][i-1] != 0)) debug[13]++; // 121280
+			if(pesos_originales[i-1][j-1] != pesos_originales[j-1][i-1]) debug[8]++;
+			if(aux<0) debug[9]++;
+			if((aux != 0.0) && (i==j)) debug[10]++; // 999
+			if(aux==0.0) debug[11]++;*/
+			
+			if((aux != 0.0) && (i!=j) && (pesos_originales[i-1][j-1] == 0.0) && (pesos_originales[j-1][i-1] == 0.0))
+				num_edges += 2;
+
+			// Check previous values
+			if(aux<0) {
+				fprintf(stderr, "\n[WARNING] - Weight[%d][%d] is %lf and should be positive ! Corrected: set to 0.\n", i, j, aux);
+				aux = 0;
+			} else if((aux != 0.0) && (i==j)) {
+				// Non-null value on the diagonal, ignore
+				fprintf(stderr, "\n[WARNING] - Weight[%d][%d] is %lf and should be null ! Corrected: set to 0.\n", i, j, aux);
+				aux = 0;
+			} else if((pesos_originales[i-1][j-1]>0) && (fabs(pesos_originales[i-1][j-1]-aux)>0.0001)) {
+				fprintf(stderr, "\n[WARNING] - Overwriting Weight[%d][%d] containing %lf with %lf !\n", i-1, j-1, pesos_originales[i-1][j-1], aux);
+			}
+			
 			pesos_originales[i-1][j-1] = aux;
-			/* si el fichero de entrada solo tiene los ejes de la media matriz diagonal */
+			
+			// Make the matrix symmetric
 			pesos_originales[j-1][i-1] = aux;
   			}
+			
+			/*for(d=0; d<14; d++)
+				if(debug[d]>0)
+					fprintf(stderr, "[DEBUG] - debug[%d] = %d\n", d, debug[d]);*/
+	
 		}
   	else
 		{
-		printf("[ERROR] - Formato del fichero de entrada no valido (found: '%s').\n", cadena);
+		fprintf(stderr, "[ERROR] - Formato del fichero de entrada no valido (found: '%s').\n", cadena);
 		exit(3);
   		}
 	}
 	
+
   // Only undirected graphs are used with Kruskal
   num_edges /= 2;
 	
@@ -145,7 +184,7 @@ void Input(int argc, char *argv[]){
   // Allocation of vedges[]
   vedges = (SEDGE **) malloc(sizeof(SEDGE*)*(num_edges));
   if(vedges == NULL){
-  	printf("\n[ERROR] - Cannot allocate the memory for vedges.\n");
+  	fprintf(stderr, "\n[ERROR] - Cannot allocate the memory for vedges.\n");
 	exit(3);
   	}
       
@@ -163,9 +202,11 @@ void Input(int argc, char *argv[]){
       
   if(k!=num_edges)
   {
-    printf("\n[WARNING] - The are some non null values on the diagonal!\n");
+    fprintf(stderr, "\n[WARNING] - The are some non null values on the diagonal (k=%d, num_edges=%d)!\n", k, num_edges);
     //exit(3);
   }
+  
+  
       
   // Allocation of compConnexe[]
   ds_alloc(num_nodos);
@@ -173,7 +214,7 @@ void Input(int argc, char *argv[]){
   // Allocation of sameValuesNodes[]
   sameValuesNodes = (int *) malloc(sizeof(int)*(num_edges));
   if(sameValuesNodes == NULL){
-  	printf("\n[ERROR] - Cannot allocate the memory for sameValuesNodes.\n");
+  	fprintf(stderr, "\n[ERROR] - Cannot allocate the memory for sameValuesNodes.\n");
 	exit(3);
   	}
 
@@ -203,7 +244,7 @@ pesos_originales[][] - original weight matrix (eq. to W(1) or D(1))
 void Programacion_Dinamica (){
   int i,j,k;
   int size_svn;  // Size of the sameValuesNodes vector
-  float firstv;
+  double firstv;
   int s1, s2, s1_k, s2_k;
 
 
@@ -224,7 +265,13 @@ void Programacion_Dinamica (){
   // Initialisation of compConnexe[]
   ds_init(num_nodos);
    
-   
+	// DEBUG: check vedges
+	//fprintf(stderr, "k=%d, num_edges=%d, num_nodos=%d\n", k, num_edges, num_nodos);
+	/*int k2;
+	for(k2=0; k2<num_edges; k2++) {
+		if(vedges[k2] == NULL)
+			fprintf(stderr, "Edge %d null!\n", k2);
+	}*/
    
   // Sort all the edges of the graph
 #if ORIGINAL == 0
@@ -341,23 +388,23 @@ void Programacion_Dinamica (){
 /*********************************************************************************/
 
 
-float * * Matriz_dinamica_float(int nfils, int ncols)
+double * * Matriz_dinamica_float(int nfils, int ncols)
 {
 
-   float **matriz;
+   double **matriz;
    int i,j,error=0;
    /*reservo memoria para un vector de nfil punteros a enteros largos*/
-   if((matriz=(float **)calloc(nfils,sizeof(float *)))==NULL){
-       printf("Error en la asignacion de memoria");
+   if((matriz=(double **)calloc(nfils,sizeof(double *)))==NULL){
+       fprintf(stderr, "Error en la asignacion de memoria");
        exit(3);}
 
    else
    /*para cada componente del vector (puntero a entero largo) reservo memoria para
    un vector de ncols de enteros largos*/
        for(i=0;(i<nfils) && !error;i++)
-          if((matriz[i]=(float*)calloc(ncols,sizeof(float)))==NULL)
+          if((matriz[i]=(double*)calloc(ncols,sizeof(double)))==NULL)
           {
-             printf("Error en la asignacion de memoria\n");
+             fprintf(stderr, "Error en la asignacion de memoria\n");
              error=1;
              for(j=i-1;j>=0;j--)   /* si no se puede reservar, libero la memoria que*/
                 free(matriz[j]);   /* habia reservado previamente */
@@ -368,7 +415,7 @@ float * * Matriz_dinamica_float(int nfils, int ncols)
 }
 
 
-void Libera_matriz_dinamica_float (float **matriz, int nfils)
+void Libera_matriz_dinamica_float (double **matriz, int nfils)
 {
    int i;
 
@@ -426,7 +473,7 @@ inline void ds_alloc(int n)
   // Allocation of compConnexe[]
   compConnexe = (int *) malloc(sizeof(int)*(n));
   if(compConnexe == NULL){
-  	printf("\n[ERROR] - Cannot allocate the memory for compConnexe.\n");
+  	fprintf(stderr, "\n[ERROR] - Cannot allocate the memory for compConnexe.\n");
 	exit(3);
   }
 }
@@ -485,21 +532,21 @@ inline void ds_alloc(int n)
   // Allocation of compConnexe[]
   compConnexe = (int *) malloc(sizeof(int)*(n));
   if(compConnexe == NULL){
-  	printf("\n[ERROR] - Cannot allocate the memory for compConnexe.\n");
+  	fprintf(stderr, "\n[ERROR] - Cannot allocate the memory for compConnexe.\n");
 	exit(3);
   }
   
   // Allocation of compConnexeRank[]
   compConnexeRank = (int *) malloc(sizeof(int)*(n));
   if(compConnexeRank == NULL){
-  	printf("\n[ERROR] - Cannot allocate the memory for compConnexeRank.\n");
+  	fprintf(stderr, "\n[ERROR] - Cannot allocate the memory for compConnexeRank.\n");
 	exit(3);
   }
   
   // Allocation of compConnexeBuffer[]
   compConnexeBuffer = (int *) malloc(sizeof(int)*(n));
   if(compConnexeBuffer == NULL){
-  	printf("\n[ERROR] - Cannot allocate the memory for compConnexeBuffer.\n");
+  	fprintf(stderr, "\n[ERROR] - Cannot allocate the memory for compConnexeBuffer.\n");
 	exit(3);
   }
 }
