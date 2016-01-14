@@ -20,7 +20,6 @@
 // Time the computation time
 // 0: no chronometer
 // N: N iterations of the computation + print of the results
-//#define CHRONOMETER 235
 #define CHRONOMETER 0
 #define CHRONOMETER_ALL 0
 
@@ -37,8 +36,6 @@
 
 /* VARIABLES */
 int q;		//parametro q para indicar el número de arcos max que puede tener un camino
-int r;		//parametro r para indicar la metrica de minkowski a usar
-int maximo;		//tipo de calculo a efectuar (caminos maximos o minimos)
 float **pfnet;	//si pfnet[i][j]=TRUE hay un enlace entre los nodos i y j
 int num_nodos;	//numero de nodos de la matriz
 float **pesos;		//matriz de pesos asociados a los arcos
@@ -56,13 +53,11 @@ void Libera_matriz_dinamica_char (char **matriz, int nfils);	//libera memoria de
 int ** Matriz_dinamica_int(int nfil, int ncol);	//reserva memoria para una matriz de int
 void Libera_matriz_dinamica_int (int **matriz, int nfils);	//libera memoria de una matriz de int
 void Input(int argc, char *argv[]);	//coge los datos de entrada y los guarda en las respectivas variables
-void Programacion_Dinamica_caminos_min_o_max (void);	// Función que selectiona el problema de caminos maximos o minimos
-void Programacion_Dinamica_caminos_maximos(void);	//Función que resuelve el problema de caminos maximos mediante programación dinamica
-void Programacion_Dinamica_caminos_minimos(void);	//Función que resuelve el problema de caminos minimos mediante programación dinamica
-void update_weight_maximum(int i, int j, int k, float weight_ik, float weight_kj, int salto_alternativo);	// Update the weight if a new minimum is obtained
-void update_weight_minimum(int i, int j, int k, float weight_ik, float weight_kj, int salto_alternativo);	// Update the weight if a new minimum is obtained
+void Programacion_Dinamica ();	//Función que resuelve el problema mediante programación dinamica
+void update_weight(int i, int j, float minimo, int nsaltos);	// Update the weight if a new minimum is obtained
 void open_net(FILE* fich);
 int is_symmetrical(void);
 void save_net(float** pfnet, FILE* fich, int type);
-
+void Print_Int_Matrix(FILE* out, int **matrix, int size);
+void Print_Float_Matrix(FILE* out, float **matrix, int size);
 

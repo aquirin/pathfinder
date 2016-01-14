@@ -9,9 +9,9 @@ void open_net(FILE* fich)
   int i, j, k;
   float aux;
   char cadena[1025];
-
-  char* ret = fgets(cadena, 1024, fich);
-
+  
+  char *ret = fgets(cadena, 1024, fich);
+    
   //Dependiendo del formato de entrada leemos de una forma u otra.
   if(strncmp(cadena,"*matrix",7)==0 || strncmp(cadena,"*Matrix",7)==0 || strncmp(cadena,"*MATRIX",7)==0)
   {
@@ -20,7 +20,7 @@ void open_net(FILE* fich)
 		{
 			int ret = fscanf(fich,"%f",&aux);
 			pesos_originales[i][j] = aux;
-            pesos[i][j] = aux;
+            		pesos[i][j] = aux;
 		}
 
   }
@@ -29,7 +29,7 @@ void open_net(FILE* fich)
   	while( fscanf(fich, "%i %i %f", &i, &j, &aux) != EOF )
 	{
 		pesos_originales[i-1][j-1] = aux;
-        pesos[i-1][j-1] = aux;
+	       	pesos[i-1][j-1] = aux;
 		/* si el fichero de entrada solo tiene los ejes de la media matriz diagonal */
 		pesos_originales[j-1][i-1] = aux;
 		pesos[j-1][i-1] = aux;
@@ -41,7 +41,7 @@ void open_net(FILE* fich)
 	{
 		pesos_originales[i-1][j-1] = aux;
 	       	pesos[i-1][j-1] = aux;
-
+		
   	}
   }
   else
@@ -49,7 +49,7 @@ void open_net(FILE* fich)
 	printf("[ERROR] - Formato del fichero de entrada no valido.\n");
 	exit(3);
   }
-
+  
   /*// Print pesos[][]
   printf("***** Matrix pesos_originales[][] :\n");
   for(i=0;i<num_nodos;i++)
@@ -61,7 +61,7 @@ void open_net(FILE* fich)
     printf("\n");
   }
   printf("*****\n");*/
-
+	
 }
 
 
@@ -89,8 +89,8 @@ Write .NET files (matrix, edges or arcs)
 void save_net(float** pfnet, FILE* fich, int type)
 {
   int i, j;
-
-
+ 
+	
 	/******************/
 	/*printf("***** Matrix saltos[][] :\n");
 	for(i=0;i<num_nodos;i++)
@@ -101,11 +101,11 @@ void save_net(float** pfnet, FILE* fich, int type)
 		}
 		printf("\n");
 	}
-
+	
 	printf("q: %d\n", q);*/
-
+	
 	/******************/
-
+	
 	switch(type)
   {
   case OUTPUT_MATRIX:

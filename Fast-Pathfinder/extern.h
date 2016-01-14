@@ -7,6 +7,7 @@
 
 #define TRUE	1.0
 #define FALSE	0.0
+//#define INFINITY2	1000		// Value used to code a non-link between 2 nodes
 #define OUTPUT_MATRIX   1
 #define OUTPUT_EDGES    2
 #define OUTPUT_ARCS     3
@@ -14,8 +15,6 @@
 
 /* VARIABLES */
 extern int q;		//parametro q para indicar el número de arcos max que puede tener un camino
-extern int r;		//parametro r para indicar la metrica de minkowski a usar
-extern int maximo;		//tipo de calculo a efectuar (caminos maximos o minimos)
 extern float **pfnet;	//si pfnet[i][j]=TRUE hay un enlace entre los nodos i y j
 extern int num_nodos;	//numero de nodos de la matriz
 extern float **pesos;		//matriz de pesos asociados a los arcos
@@ -35,4 +34,5 @@ extern void update_weight(int i, int j, float minimo, int nsaltos);	// Update th
 extern void open_net(FILE* fich);
 extern int is_symmetrical(void);
 extern void save_net(float** pfnet, FILE* fich, int type);
-
+extern void Print_Int_Matrix(FILE* out, int **matrix, int size);
+extern void Print_Float_Matrix(FILE* out, float **matrix, int size);
