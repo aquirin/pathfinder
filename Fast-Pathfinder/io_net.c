@@ -10,7 +10,7 @@ void open_net(FILE* fich)
   float aux;
   char cadena[1025];
   
-  char *ret = fgets(cadena, 1024, fich);
+  char* ret = fgets(cadena, 1024, fich);
     
   //Dependiendo del formato de entrada leemos de una forma u otra.
   if(strncmp(cadena,"*matrix",7)==0 || strncmp(cadena,"*Matrix",7)==0 || strncmp(cadena,"*MATRIX",7)==0)
@@ -90,23 +90,7 @@ void save_net(float** pfnet, FILE* fich, int type)
 {
   int i, j;
  
-	
-	/******************/
-	/*printf("***** Matrix saltos[][] :\n");
-	for(i=0;i<num_nodos;i++)
-	{
-		for(j=0;j<num_nodos;j++)
-		{
-			printf(" %d", (int)saltos[i][j]);
-		}
-		printf("\n");
-	}
-	
-	printf("q: %d\n", q);*/
-	
-	/******************/
-	
-	switch(type)
+  switch(type)
   {
   case OUTPUT_MATRIX:
     // Print the "*matrix" matrix

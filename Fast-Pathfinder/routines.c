@@ -183,7 +183,7 @@ void swapQSd(double **a, int i, int j)
 /**************************************************\
 Gestion d'un chronomètre
 \**************************************************/
-/* struct tms baseh_tim1;
+struct tms baseh_tim1;
 void baseh_chronostart(void)	// Démarre le chrono
 {
 	times(&baseh_tim1);
@@ -386,13 +386,12 @@ double rnd_mul(double f, int n, double m)
 Gestions de son (que sous Windows)
 \**************************************************/
 
-//#ifndef _WIN32
+#ifndef _WIN32
 void Beep(int f, int d)
 {
 	USE(f);
 	USE(d);
 }
-//
 #endif
 
 // Joue n notes. duree est en ms.
@@ -899,7 +898,7 @@ void printprc(double p, int l)
 	printf("] %.2f%%",p*100);
 }
 
-//#endif
+#endif
 
 /**************************************************\
 Traitement des fichiers.

@@ -14,7 +14,6 @@
 
 
 /* VARIABLES */
-extern int q;		//parametro q para indicar el número de arcos max que puede tener un camino
 extern float **pfnet;	//si pfnet[i][j]=TRUE hay un enlace entre los nodos i y j
 extern int num_nodos;	//numero de nodos de la matriz
 extern float **pesos;		//matriz de pesos asociados a los arcos
@@ -30,9 +29,7 @@ extern char ** Matriz_dinamica_char(int nfil, int ncol);	//reserva memoria para 
 extern void Libera_matriz_dinamica_char (char **matriz, int nfils);	//libera memoria de una matriz de char
 extern void Input(int argc, char *argv[]);	//coge los datos de entrada y los guarda en las respectivas variables
 extern void Programacion_Dinamica ();	//Función que resuelve el problema mediante programación dinamica
-extern void update_weight(int i, int j, float minimo, int nsaltos);	// Update the weight if a new minimum is obtained
 extern void open_net(FILE* fich);
 extern int is_symmetrical(void);
 extern void save_net(float** pfnet, FILE* fich, int type);
-extern void Print_Int_Matrix(FILE* out, int **matrix, int size);
-extern void Print_Float_Matrix(FILE* out, float **matrix, int size);
+

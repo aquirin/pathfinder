@@ -8,25 +8,10 @@ int _main(int argc, char *argv[]){
 
   Input(argc,argv);
   
-	/******************/
-	 /*printf("***** Matrix saltos[][] :\n");
-	 for(i=0;i<num_nodos;i++)
-	 {
-	 for(j=0;j<num_nodos;j++)
-	 {
-	 printf(" %d", (int)saltos[i][j]);
-	 }
-	 printf("\n");
-	 }
-	
-	printf("q: %d\n", q);*/
-	
-	 /******************/
-	
 #if CHRONOMETER == 0
   Programacion_Dinamica();
 #else
-  //baseh_chronostart();
+  baseh_chronostart();
   for(r=0;r<CHRONOMETER;r++)
   {
     Programacion_Dinamica();
@@ -52,12 +37,11 @@ int _main(int argc, char *argv[]){
     printf("\n");
   }*/
   
-	Libera_matriz_dinamica_float (pesos_originales, num_nodos);
-	Libera_matriz_dinamica_float (pfnet, num_nodos);
+  Libera_matriz_dinamica_float (pesos_originales, num_nodos);
+  Libera_matriz_dinamica_float (pfnet, num_nodos);
 
-	Libera_matriz_dinamica_float (pesos, num_nodos);
-	Libera_matriz_dinamica_int (saltos, num_nodos);
-	
+  Libera_matriz_dinamica_float (pesos, num_nodos);
+
 #if ORIGINAL == 2
   Libera_matriz_dinamica_char (predecessors, num_nodos);
 #endif
@@ -72,14 +56,13 @@ int main(int argc, char *argv[]){
 #if CHRONOMETER_ALL == 0
   _main(argc, argv);
 #else
-  /* baseh_chronostart();
+  baseh_chronostart();
   for(r=0;r<CHRONOMETER_ALL;r++)
   {
     _main(argc, argv);
     //fprintf(stderr," %f",baseh_chronostop(0));
   }
-  fprintf(stderr," Temps_(tout)(s): %f\n",baseh_chronostop(0)/CHRONOMETER_ALL);
-  */
+  //fprintf(stderr," Temps_(tout)(s): %f\n",baseh_chronostop(0)/CHRONOMETER_ALL);
 #endif
 
 }

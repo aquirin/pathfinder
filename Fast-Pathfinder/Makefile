@@ -13,11 +13,11 @@ CFLAGS =  -c -O3
 
 # Ficheros .c
 
-C = pfnet.c funciones.c io_net.c
+C = pfnet.c funciones.c io_net.c routines.c
 
 # Ficheros .o
 
-O = pfnet.o funciones.o io_net.o
+O = pfnet.o funciones.o io_net.o routines.o
 
 # Compilacion inicial
 

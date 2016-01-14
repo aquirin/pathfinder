@@ -27,7 +27,7 @@
 // Instead of computing all the cells of the distance matrix, compute only the cells in the upper triangle
 // In this case, it is needed to sort the index of cells, i.e. to use M[min(a,b)][max(a,b)] instead of
 // M[a][b]
-#define TRIANGULAR_OPTIMISATION 0
+#define TRIANGULAR_OPTIMISATION 1
 
 // Number of digits used for the values of the links
 // Examples: ".8", ".10", "" for the maximal available precision
@@ -35,13 +35,11 @@
 
 
 /* VARIABLES */
-int q;		//parametro q para indicar el número de arcos max que puede tener un camino
 float **pfnet;	//si pfnet[i][j]=TRUE hay un enlace entre los nodos i y j
 int num_nodos;	//numero de nodos de la matriz
 float **pesos;		//matriz de pesos asociados a los arcos
 float **pesos_originales;
 char **predecessors;		// Matrix of the predecessor nodes (values are 1-based)
-int **saltos;
 int is_sym;		// 1 if the original matrix is symmetrical
 
 
@@ -50,14 +48,10 @@ float ** Matriz_dinamica_float(int nfil, int ncol);	//reserva memoria para una m
 void Libera_matriz_dinamica_float (float **matriz, int nfils);	//libera memoria de una matriz de flotantes
 char ** Matriz_dinamica_char(int nfil, int ncol);	//reserva memoria para una matriz de char
 void Libera_matriz_dinamica_char (char **matriz, int nfils);	//libera memoria de una matriz de char
-int ** Matriz_dinamica_int(int nfil, int ncol);	//reserva memoria para una matriz de int
-void Libera_matriz_dinamica_int (int **matriz, int nfils);	//libera memoria de una matriz de int
 void Input(int argc, char *argv[]);	//coge los datos de entrada y los guarda en las respectivas variables
 void Programacion_Dinamica ();	//Función que resuelve el problema mediante programación dinamica
-void update_weight(int i, int j, float minimo, int nsaltos);	// Update the weight if a new minimum is obtained
 void open_net(FILE* fich);
 int is_symmetrical(void);
 void save_net(float** pfnet, FILE* fich, int type);
-void Print_Int_Matrix(FILE* out, int **matrix, int size);
-void Print_Float_Matrix(FILE* out, float **matrix, int size);
+
 
