@@ -10,8 +10,8 @@
 #CPPFLAGS =  -g -c -O0 -Wno-deprecated
 
 # Normal way
-CFLAGS =  -c -O3
-CPPFLAGS =  -c -O3 -Wno-deprecated
+CFLAGS =  -c -O3 -Wall
+CPPFLAGS =  -c -O3 -Wno-deprecated -Wall
 
 # Normal way (cygwin)
 #CFLAGS =  -c -O3 -Dcygwin

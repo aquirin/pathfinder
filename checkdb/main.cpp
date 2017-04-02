@@ -14,10 +14,7 @@ void Input(int argc, char *argv[]){
 
   Graph* graph_main, *graph_union, *graph_diff;
   vector<Graph*> graph_main_db, graph_union_db, graph_diff_db;
-  int i, j, k;
-  char cadena[256];
-  float aux;
-  float minimo = -1.0;
+  int i, j;
   int num_difffields = 0;	// Number of links connecting nodes with two different fields
   float dfl_sum = 0, dfl_num = 0;		// Values for difffields-links
   float non_dfl_sum = 0, non_dfl_num = 0;		// Values for non difffields-links
@@ -32,24 +29,34 @@ void Input(int argc, char *argv[]){
   
   
   // Analyze all the options
-  int opt, meth;
+  int opt;
   int nopt=1; // Number of successfully parsed options to declare
               // the command line correct
   char* filename = NULL;
   char* filename_union = NULL;
   char* filename_diff = NULL;
   char* filename_dico = NULL;
-  char* buffer;
   // Default values
   int filter_type = 0;
+  
+#ifdef FILTER_NODES
   int nfilter_type = 0;
+#endif
+  
   int stat_type = 0;
   int input_type = INPUT_PAJEK;
   
+#ifdef MODIFICATION_MATRIX
   int modif_type = 0;
+#endif
+
   int load_scored_db = 0;
   float extra_value = 8.0;		// Value used for weird links, filter threshold, modif. constant. and the difference type
+  
+#ifdef USE_PREDECESSORS
   int do_not_use_predecessors = 0;
+#endif
+
   extern char* optarg;
   GLOBAL gP;		// Global parameters
   
@@ -136,12 +143,16 @@ void Input(int argc, char *argv[]){
 	  else if(!strcmp(optarg, "filter3")) filter_type = FILTER_FILTER3;
 	  nopt--;
 	  break;
+	  
+#ifdef FILTER_NODES
 	case 'q':
 	  // -q <node filter type>
 	  if(!strcmp(optarg, "all")) nfilter_type = NFILTER_ALL;
 	  else if(!strcmp(optarg, "unisolated")) nfilter_type = NFILTER_UNISOLATED;
 	  nopt--;
 	  break;
+#endif
+	  
 	case 'n':
 	  // -n <statistic name>
 	  if(!strcmp(optarg, "all")) stat_type = STAT_ALL;
@@ -200,6 +211,8 @@ void Input(int argc, char *argv[]){
 	  else if(!strcmp(optarg, "subdue_directed_emptyname")) gP.output_type = OUTPUT_SUBDUE_DIRECTED_EMPTYNAME;*/
 	  nopt--;
 	  break;
+	  
+#ifdef MODIFICATION_MATRIX
 	case 'm':
 	  // -m <modification type>
 	  if(!strcmp(optarg, "add")) modif_type = MODIFY_ADD;
@@ -209,6 +222,8 @@ void Input(int argc, char *argv[]){
 	  else if(!strcmp(optarg, "compare_with")) modif_type = MODIFY_COMPARE_WITH;
 	  nopt--;
 	  break;
+#endif
+
         case 'u':
           // -u <filename> (second filename for the union)
 	  filename_union = strdup(optarg);
@@ -248,10 +263,14 @@ void Input(int argc, char *argv[]){
 	  else
 	    gP.filename_output = strdup(optarg);
 	  break;
+	  
+#ifdef USE_PREDECESSORS
 	 case 'p':
 	  // -p
 	  do_not_use_predecessors = 1;
 	  break;
+#endif
+
         case 't':
           // -t <filename> (dictionnary)
 	  filename_dico = strdup(optarg);
@@ -875,24 +894,24 @@ Used to compare two elements of an edge vector.
 ***/
 
 // Min value is ordered first
-static int compedges_min(const void *_e1, const void *_e2)
+/*static int compedges_min(const void *_e1, const void *_e2)
 {
   SEDGE **e1 = (SEDGE **) _e1;
   SEDGE **e2 = (SEDGE **) _e2;
   if((*e1)->w > (*e2)->w) return 1;
   else if((*e1)->w < (*e2)->w) return -1;
   else return 0;
-}
+}*/
 
 // Max value is ordered first
-static int compedges_max(const void *_e1, const void *_e2)
+/*static int compedges_max(const void *_e1, const void *_e2)
 {
   SEDGE **e1 = (SEDGE **) _e1;
   SEDGE **e2 = (SEDGE **) _e2;
   if((*e2)->w > (*e1)->w) return 1;
   else if((*e2)->w < (*e1)->w) return -1;
   else return 0;
-}
+}*/
 
 
 
@@ -932,8 +951,8 @@ void load_database(GLOBAL *gP)
 	// Read the database
 	while(1)
 	{
-		char field[256];
-		char category[256];
+		//char field[256];
+		//char category[256];
 		char* ret = fgets(cadena, 1024, fich);
 		USE(ret);
 		if(feof(fich)) break;
@@ -1390,7 +1409,7 @@ how they are crossed by the algorithm. If 0, there is not loop in the graph.
 
 int loop_detector(GLOBAL *gP, Graph *G, int _show_cycles)
 {
-  int i, j, gr, num_grey=1, num_black=0, cycle=0;
+  int i, gr, num_grey=1, num_black=0, cycle=0;
   char* color = Vector_char(G->nodes());
   for(i=0;i<G->nodes();i++)
     color[i]='w';
@@ -1512,6 +1531,7 @@ void load_dico_database(GLOBAL *gP, char* filename)
 // Manage the type and the stdin feature.
 vector<Graph*> open_generic_file(GLOBAL *gP, char* filename, int type) {
   FILE *fin;
+  vector<Graph*> DB;
   
   if ((filename==NULL) || !strcmp(filename,"-"))
       fin=stdin;
@@ -1520,7 +1540,8 @@ vector<Graph*> open_generic_file(GLOBAL *gP, char* filename, int type) {
 	  fin = fopen(filename,"r");
 	  if(fin==NULL){
 	  	fprintf(stderr, "\n[ERROR] - Cannot open the file %s !\n", filename);
-		exit(2);
+		return DB;
+		//exit(2);
 	  	}
   }
   
@@ -1538,6 +1559,8 @@ vector<Graph*> open_generic_file(GLOBAL *gP, char* filename, int type) {
   	return open_gspan_file(gP, filename);
   } else if (type == INPUT_PROLOG) {
   	return open_prolog_file(gP, fin);
+  } else {
+	  return DB;
   }
 }
 
@@ -1568,7 +1591,6 @@ void write_generic_file(GLOBAL *gP, vector<Graph*> graph_db) {
 
 
 int main(int argc, char *argv[]){
-  int i, j, r;
 
   Input(argc,argv);
   

@@ -9,7 +9,7 @@ Notes:
 void write_gspan_file(GLOBAL* gP, vector<Graph*> DB) {
 
     int i, j;
-	char *s1;	// Help for the output
+	//char *s1;	// Help for the output
 	int limit;	// Help for the output
 	
 	// Open the output file
@@ -23,7 +23,7 @@ void write_gspan_file(GLOBAL* gP, vector<Graph*> DB) {
 		fout = fopen(gP->filename_output, "wb");
 	}
 	
-	for(int ng=0; ng<DB.size(); ng++) {
+	for(unsigned int ng=0; ng<DB.size(); ng++) {
 	
 		Graph* G = DB[ng];
 	

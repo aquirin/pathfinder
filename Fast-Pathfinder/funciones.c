@@ -17,10 +17,10 @@ Note: it is possible that a bug avoid the use of the q parameter
 void Input(int argc, char *argv[]){
 
   FILE *fich;
-  int i, j, k;
+  int i, j;
   char cadena[256];
-  float aux;
-  float minimo = -1.0;
+  //float aux;
+  //float minimo = -1.0;
 
   if(argc>5){
 	printf("\n[ERROR] - Formato de entrada incorrecto.\n\t\t ./pfnet [-|fichero_de_entrada] [q [r [maximo]]]\n");
@@ -43,6 +43,10 @@ void Input(int argc, char *argv[]){
 
 
   int ret = fscanf(fich, ENTRADA_1, &num_nodos);	//lee el numero de nodos
+  if(ret==0) {
+	printf("\n[ERROR] - Apertura del fichero %s incorrecta.\n", argv[1]);
+	exit(2);
+  }
   printf(ENTRADA_1, num_nodos);		    //Mostramos por pantalla el numero de nodos
 
   if(argc >= 3)
@@ -62,6 +66,10 @@ void Input(int argc, char *argv[]){
 	
   for (i=0; i<num_nodos+1;i++){		//obviamos la informacion de cada nodo
   	char* ret = fgets(cadena, 255, fich);
+	if(ret==NULL) {
+		printf("\n[ERROR] - Apertura del fichero %s incorrecta.\n", argv[1]);
+		exit(2);
+	}
 	printf("%s", cadena);
 	}
 

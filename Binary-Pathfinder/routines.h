@@ -23,7 +23,8 @@ Destructeur (delete ou free) : cbitDel
 #define __ROUTINES_H__
 
 #include "base.h"
-//#include <sys/times.h>
+//#include <time.h>
+#include "math.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -137,6 +138,7 @@ void sstrget(char** str, char *s);
 void ClearScreen(void);
 unsigned char GetExtendedKey(void);
 void printprc(double p, int l);
+char* getline2(FILE* in, int *size);
 
 #ifdef __cplusplus
 }

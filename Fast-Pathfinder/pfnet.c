@@ -4,7 +4,7 @@
 
 
 int _main(int argc, char *argv[]){
-  int i, j, c;
+  //int i, j, c;
 
 /* Si CAMINOS_MAXIMOS es TRUE se calculan los caminos maximos y
 no se cambia la matriz de adyancia original. Si es FALSE, se
@@ -62,7 +62,7 @@ se cambia el signo de los pesos en la matriz de adyacencia */
 
 
 int main(int argc, char *argv[]){
-  int c;
+  //int c;
 
 #if CHRONOMETER_ALL == 0
   _main(argc, argv);

@@ -29,7 +29,7 @@ void write_jxplore_file(GLOBAL* gP, vector<Graph*> DB) {
 	fprintf(fout, "BEGIN_LIST\n");
 	
 
-	for(int ng=0; ng<DB.size(); ng++) {
+	for(unsigned int ng=0; ng<DB.size(); ng++) {
 	
 		Graph* G = DB[ng];
 	

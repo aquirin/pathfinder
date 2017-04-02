@@ -2,7 +2,7 @@
 #include "routines.h"
 
 int _main(int argc, char *argv[]){
-  int i, j, r;
+  int i, j;
 
   Input(argc,argv);
 
@@ -32,7 +32,6 @@ int _main(int argc, char *argv[]){
 }
 
 int main(int argc, char *argv[]){
-  int r;
 
 #if CHRONOMETER_ALL == 0
   _main(argc, argv);

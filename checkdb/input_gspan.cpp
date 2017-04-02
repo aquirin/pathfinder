@@ -150,12 +150,12 @@ vector<CHECKDB::Graph*> open_gspan_file(GLOBAL* gP, char* filename) {
 	GSPAN::Graph g;
 	//Graph g(directed);
 	std::string gName;
-	unsigned int gNameInt;
+	//unsigned int gNameInt;
 	std::vector < GSPAN::Graph > TRANS; // the graph dataset (gSpan format)
 	vector<CHECKDB::Graph*> DB; // the graph dataset (local format)
 	while (true) {
 		g.read (myfile, DB, &gName);
-		gNameInt = strtoul(gName.c_str(),NULL,10);
+		//gNameInt = strtoul(gName.c_str(),NULL,10);
 		if (g.empty()) break;
 		TRANS.push_back (g);
 		//cout << "Graph " << gNameInt << ": " << g.vertex_size() << " nodes, " << g.edge_size() << " edges." << endl;

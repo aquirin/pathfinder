@@ -1474,7 +1474,7 @@ Parameters *GetParameters(int argc, char *argv[])
    int i;
    double doubleArg;
    ULONG ulongArg;
-   BOOLEAN limitSet = SUBD_FALSE;
+   //BOOLEAN limitSet = SUBD_FALSE;
    FILE *outputFile;
 
    parameters = (Parameters *) malloc(sizeof(Parameters));
@@ -1561,7 +1561,7 @@ Parameters *GetParameters(int argc, char *argv[])
             exit(1);
          }
          parameters->limit = ulongArg;
-         limitSet = SUBD_TRUE;
+         //limitSet = SUBD_TRUE;
       }
       else if (strcmp(argv[i], "-maxsize") == 0) 
       {
@@ -1971,7 +1971,7 @@ vector<Graph*> open_subdue_file(GLOBAL* gP, char* filename) {
    char buffer[100];
    char buffer2[100];
    UCHAR labelType;
-   int i, j, ng;
+   unsigned int i, ng;
 	
 	argc = 2;
 	argv[0] = strdup("checkdb");
@@ -1999,7 +1999,7 @@ vector<Graph*> open_subdue_file(GLOBAL* gP, char* filename) {
    ////////////////////
 
    // Loop for all the positive graphs
-   int num_pos_graphs = parameters->numPosEgs;
+   unsigned int num_pos_graphs = parameters->numPosEgs;
    
    /*printf("[");
    for(i=0; i<num_pos_graphs; i++)
@@ -2016,11 +2016,11 @@ vector<Graph*> open_subdue_file(GLOBAL* gP, char* filename) {
 	  int num_nodes = parameters->posGraph->numVertices;
 	  
 	  // Node start and end
-	  int node_start = parameters->posEgsVertexIndices[ng];
-	  int node_end = ((ng+1)<num_pos_graphs) ? parameters->posEgsVertexIndices[ng+1]-1 : num_nodes-1;
+	  unsigned int node_start = parameters->posEgsVertexIndices[ng];
+	  unsigned int node_end = ((ng+1)<num_pos_graphs) ? parameters->posEgsVertexIndices[ng+1]-1 : num_nodes-1;
   
 	  // Read the name of each node
-	  for (i=node_start; i<=node_end;i++) {
+	  for (unsigned i=node_start; i<=node_end;i++) {
 		index = parameters->posGraph->vertices[i].label;
 		labelType = parameters->labelList->labels[index].labelType;
 		switch(labelType) 
@@ -2041,7 +2041,7 @@ vector<Graph*> open_subdue_file(GLOBAL* gP, char* filename) {
 	  }
 	
 	  // Total number of edges
-	  int num_edges = parameters->posGraph->numEdges;
+	  unsigned int num_edges = parameters->posGraph->numEdges;
   
 	  // Read the weights
 	  for (i = 0; i < num_edges; i++) 
@@ -2082,7 +2082,7 @@ vector<Graph*> open_subdue_file(GLOBAL* gP, char* filename) {
    ////////////////////
 
    // Loop for all the negative graphs
-   int num_neg_graphs = parameters->numNegEgs;
+   unsigned int num_neg_graphs = parameters->numNegEgs;
 
    for(ng=0; ng<num_neg_graphs; ng++) {
 
@@ -2094,8 +2094,8 @@ vector<Graph*> open_subdue_file(GLOBAL* gP, char* filename) {
 	  int num_nodes = parameters->negGraph->numVertices;
 
 	  // Node start and end
-	  int node_start = parameters->negEgsVertexIndices[ng];
-	  int node_end = ((ng+1)<num_neg_graphs) ? parameters->negEgsVertexIndices[ng+1]-1 : num_nodes-1;
+	  unsigned int node_start = parameters->negEgsVertexIndices[ng];
+	  unsigned int node_end = ((ng+1)<num_neg_graphs) ? parameters->negEgsVertexIndices[ng+1]-1 : num_nodes-1;
 
 	  // Read the name of each node
 	  for (i=node_start; i<=node_end;i++) {
@@ -2119,7 +2119,7 @@ vector<Graph*> open_subdue_file(GLOBAL* gP, char* filename) {
 	  }
 
 	  // Total number of edges
-	  int num_edges = parameters->negGraph->numEdges;
+	  unsigned int num_edges = parameters->negGraph->numEdges;
 
 	  // Read the weights
 	  for (i = 0; i < num_edges; i++)

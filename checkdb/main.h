@@ -31,8 +31,8 @@
 
 // FUNCTIONS
 void Input(int argc, char *argv[]);
-static int compedges_min(const void *_e1, const void *_e2);
-static int compedges_max(const void *_e1, const void *_e2);
+//static int compedges_min(const void *_e1, const void *_e2);
+//static int compedges_max(const void *_e1, const void *_e2);
 void load_database(GLOBAL *gP);
 int is_sfl(GLOBAL *gP, Graph *G, int i, int j);
 void load_scored_database(GLOBAL *gP);

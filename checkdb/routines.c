@@ -660,7 +660,7 @@ int stribeg(char* str, char* tok)
 	while(*tok)
 	{
 		if(tolower(*str)!=tolower(*tok)) return 0;
-		*str++; *tok++;
+		str++; tok++;
 	}
 	return 1;
 }

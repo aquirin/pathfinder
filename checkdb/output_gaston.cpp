@@ -7,7 +7,7 @@ Notes:
 \*************************************************/
 void write_gaston_file(GLOBAL* gP, vector<Graph*> DB) {
 
-  int i, j;
+  int i; // j;
   
 	FILE *fout;
 	if(gP->filename_output == NULL)
@@ -16,7 +16,7 @@ void write_gaston_file(GLOBAL* gP, vector<Graph*> DB) {
 		fout = fopen(gP->filename_output, "wb");
 	}
 	
-  for(int ng=0; ng<DB.size(); ng++) {
+  for(unsigned int ng=0; ng<DB.size(); ng++) {
 
 	// Header
     fprintf(fout, "t # %d\n", ng);

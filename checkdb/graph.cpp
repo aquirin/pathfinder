@@ -32,7 +32,7 @@ Graph::Graph(int _edge_mode) {
 Destructor.
 \**************************************************/
 Graph::~Graph() {
-  int i;
+  unsigned int i;
   for(i=0;i<node_table.size();i++)
   {
     if(node_table[i].label!=NULL) free(node_table[i].label);
@@ -218,7 +218,7 @@ float Graph::weight(int n1, int n2) {
 		return weights[n1][n2];
 	} else {
 		// edge list representation
-		int e;
+		unsigned int e;
 		for(e=0;e<edge_table.size();e++) {
 			if((edge_table[e].i == n1) && (edge_table[e].j == n2)) {
 				//printf("CALL weight(%d, %d) = %f\n", n1, n2, edge_table[e].w);
@@ -234,7 +234,7 @@ Find the node index given its key. Return -1 if not
 found.
 \**************************************************/
 int Graph::find_node(char* key) {
-	for(int n=0;n<node_table.size();n++) {
+	for(unsigned int n=0;n<node_table.size();n++) {
 		if(!strcmp(node_table[n].key, key))
 			return n;
 	}
@@ -309,7 +309,7 @@ void Graph::set_weight(int n1, int n2, float w) {
 		weights[n1][n2] = w;
 	} else {
 		// edge list representation
-		int i;
+		unsigned int i;
 		for(i=0;i<edge_table.size();i++) {
 			if((edge_table[i].i == n1) && (edge_table[i].j == n2)) {
 				edge_table[i].w = w;
@@ -400,7 +400,7 @@ void Graph::print(SEDGE se) {
 }
 
 void Graph::print(void) {
-	int i, j;
+	//int i, j;
 	printf("==========\n");
 	printf("nodes() = %d\n", nodes());
 	for(int i=0;i<nodes();i++) {
@@ -442,7 +442,7 @@ Gives the first edge of the graph.
 \**************************************************/
 SNEXTEDGE Graph::first_edge(void) {
 	SNEXTEDGE nxe;
-	int i, j, e;
+	int i, j;
 	int nn = nodes();
 	
 	nxe.i = -1;
@@ -463,8 +463,8 @@ SNEXTEDGE Graph::first_edge(void) {
 	} else {
 		// edge list representation
 		nxe.e = 0;
-		return nxe;
 	}
+	return nxe;
 }
 
 /**************************************************\
@@ -472,7 +472,7 @@ Gives the next edge of the graph.
 \**************************************************/
 SNEXTEDGE Graph::next_edge(SNEXTEDGE old) {
 	SNEXTEDGE nxe = old;
-	int i, j, e;
+	//int i, j, e;
 	int nn = nodes();
 	if(directed_edges==0) {
 		int v1 = MIN(nxe.i, nxe.j);

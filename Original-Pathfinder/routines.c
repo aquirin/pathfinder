@@ -21,12 +21,14 @@ void die2(int n)
 {
 	perror("exit");
 	int ret = system("PAUSE");
+	USE(ret);
 	exit(n);
 }
 void die3(char *s, int n)
 {
 	perror(s);
 	int ret = system("PAUSE");
+	USE(ret);
 	exit(n);
 }
 
@@ -625,7 +627,7 @@ int stribeg(char* str, char* tok)
 	while(*tok)
 	{
 		if(tolower(*str)!=tolower(*tok)) return 0;
-		*str++; *tok++;
+		str++; tok++;
 	}
 	return 1;
 }

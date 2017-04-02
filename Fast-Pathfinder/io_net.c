@@ -6,12 +6,16 @@ Open .NET files (matrix, edges or arcs)
 ***/
 void open_net(FILE* fich)
 {
-  int i, j, k;
+  int i, j;
   float aux;
   char cadena[1025];
 
   char* ret = fgets(cadena, 1024, fich);
-
+  if(ret==NULL) {
+	printf("\n[ERROR] - Apertura del fichero incorrecta.\n");
+	exit(2);
+  }
+  
   //Dependiendo del formato de entrada leemos de una forma u otra.
   if(strncmp(cadena,"*matrix",7)==0 || strncmp(cadena,"*Matrix",7)==0 || strncmp(cadena,"*MATRIX",7)==0)
   {
@@ -19,6 +23,10 @@ void open_net(FILE* fich)
 		for(j=0; j<num_nodos; j++)
 		{
 			int ret = fscanf(fich,"%f",&aux);
+			if(ret==0) {
+				printf("\n[ERROR] - Apertura del fichero incorrecta.\n");
+				exit(2);
+			 }
 			pesos_originales[i][j] = aux;
             pesos[i][j] = aux;
 		}

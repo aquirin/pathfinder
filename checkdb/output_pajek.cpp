@@ -17,7 +17,7 @@ void write_pajek_file(GLOBAL* gP, vector<Graph*> DB) {
 		exit(2);
 	}
 	
-	for(int ng=0; ng<DB.size(); ng++) {
+	for(unsigned int ng=0; ng<DB.size(); ng++) {
 	
 	FILE *fout;	
 	if(gP->filename_output == NULL) {

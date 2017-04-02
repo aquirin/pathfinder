@@ -15,7 +15,7 @@ void Input(int argc, char *argv[]){
   int i, j;
   char cadena[1025];
   float aux;
-  float minimo = -1.0;
+  //float minimo = -1.0;
 
   if(argc!=2 && argc!=3){
 	printf("\n[ERROR] - Formato de entrada incorrecto.\n\t\t ./pfnet fichero_de_entrada [q]\n");
@@ -29,6 +29,10 @@ void Input(int argc, char *argv[]){
   	}
 
   int ret = fscanf(fich, ENTRADA_1, &num_nodos);	//lee el numero de nodos
+  if(ret==0) {
+	printf("\n[ERROR] - Apertura del fichero %s incorrecta.\n", argv[1]);
+	exit(2);
+  }
   printf(ENTRADA_1, num_nodos);		    //Mostramos por pantalla el numero de nodos
   
   if(argc == 3)
@@ -38,10 +42,18 @@ void Input(int argc, char *argv[]){
 
   for (i=0; i<num_nodos+1;i++){		//obviamos la informacion de cada nodo
   	char* ret = fgets(cadena, 1024, fich);
+	  if(ret==NULL) {
+		printf("\n[ERROR] - Apertura del fichero %s incorrecta.\n", argv[1]);
+		exit(2);
+	  }
 	printf("%s", cadena);
 	}
 
   char* ret2 = fgets(cadena, 1024, fich);
+  if(ret2==NULL) {
+	printf("\n[ERROR] - Apertura del fichero %s incorrecta.\n", argv[1]);
+	exit(2);
+  }
   printf("*edges\n");
   
   pesos = (float ***) malloc(sizeof(float**)*q);
@@ -71,6 +83,10 @@ void Input(int argc, char *argv[]){
 		for(j=0; j<num_nodos; j++)
 			{
 			int ret = fscanf(fich,"%f",&aux);
+			  if(ret==0) {
+				printf("\n[ERROR] - Apertura del fichero %s incorrecta.\n", argv[1]);
+				exit(2);
+			  }
 			pesos_originales[i][j] = aux;
             		pesos[0][i][j] = aux;
 			}
@@ -104,7 +120,7 @@ void Input(int argc, char *argv[]){
 /***************************************************************************************/
 void Programacion_Dinamica (){
   int i,j,k,z;
-  float maximo, minimo_local, minimo;
+  float maximo, minimo_local;
 
   //Calculo de las q matrices de pesos
   for(i=1;i<q;i++){

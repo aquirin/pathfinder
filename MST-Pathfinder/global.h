@@ -62,11 +62,11 @@ double ** Matriz_dinamica_float(int nfil, int ncol);	//reserva memoria para una 
 void Libera_matriz_dinamica_float (double **matriz, int nfils);	//libera memoria de una matriz de flotantes
 void Input(int argc, char *argv[]);	//coge los datos de entrada y los guarda en las respectivas variables
 void Programacion_Dinamica ();	//Función que resuelve el problema mediante programación dinamica
-inline void ds_alloc(int n);
-inline void ds_init(int n);
-inline int ds_find(int x);
-inline void ds_join(int n, int x, int y);
-inline int ds_same(int x, int y);
+void ds_alloc(int n);
+void ds_init(int n);
+int ds_find(int x);
+void ds_join(int n, int x, int y);
+int ds_same(int x, int y);
 char *strreplace(char *src, char *replace, char *to);
 char *strreplace_all(char *src, char *replace, char *to);
 int get_num_nodes(FILE* fich);

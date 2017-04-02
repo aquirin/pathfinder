@@ -17,15 +17,17 @@ vector<Graph*> open_prolog_file(GLOBAL* gP, FILE* fin) {
 	
 	vector<Graph*> DB;
 	char buffer[100];
-	int n_graph, n_node, n_label;
-	int e_graph, e_node1, e_node2, e_label;
-	int ret;
+	//int n_graph, n_node, n_label;
+	//int e_graph, e_node1, e_node2, e_label;
+	//int ret;
 	char* cret;
-	int last_n_graph;
+	//int last_n_graph;
 	Graph *G = NULL;
 	
 	while(true) {
 		cret = fgets(buffer, 100, fin);	// buffer = "prop_atom(d1_1,c,22,-0.117)."
+		if(cret==NULL)
+			break;
 		
 		std::vector<std::string> v_fct = split(buffer, '(');	// v_fct = [ "prop_atom" , "d1_1,c,22,-0.117)." ]
 		

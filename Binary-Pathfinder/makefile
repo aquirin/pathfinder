@@ -13,11 +13,11 @@ CFLAGS =  -c -O3 -Wall
 
 # Ficheros .c
 
-C = pfnet.c funciones.c io_net.c
+C = binary.c routines.c
 
 # Ficheros .o
 
-O = pfnet.o funciones.o io_net.o
+O = binary.o routines.o
 
 # Compilacion inicial
 
@@ -25,8 +25,8 @@ O = pfnet.o funciones.o io_net.o
 	gcc $(CFLAGS) $(C)
 
 # Compilacion final
-fast-pathfinder:	pfnet.o $(O)
-			gcc -o fast-pathfinder $(O) -lm
+binary:	$(O)
+	gcc -o binary $(O) -lm
 
 clean:
-	rm -rf fast-pathfinder *.o
+	rm -rf binary *.o

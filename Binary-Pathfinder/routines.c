@@ -9,24 +9,26 @@
 // return error("ERREUR");
 int error(char *s)
 {
-	fprintf(stderr,s);
+	fprintf(stderr,s,NULL);
 	return -1;
 }
 void die(char *s)
 {
-	fprintf(stderr,s);
+	fprintf(stderr,s,NULL);
 	exit(-1);
 }
 void die2(int n)
 {
 	perror("exit");
-	system("PAUSE");
+	int ret = system("PAUSE");
+	USE(ret);
 	exit(n);
 }
 void die3(char *s, int n)
 {
 	perror(s);
-	system("PAUSE");
+	int ret = system("PAUSE");
+	USE(ret);
 	exit(n);
 }
 
@@ -625,7 +627,7 @@ int stribeg(char* str, char* tok)
 	while(*tok)
 	{
 		if(tolower(*str)!=tolower(*tok)) return 0;
-		*str++; *tok++;
+		str++; tok++;
 	}
 	return 1;
 }
@@ -910,7 +912,7 @@ Traitement des fichiers.
 // Une ligne vide renvoit '\n' et la fin d'un fichier renvoit NULL.
 #undef GETLINE_LINESIZE
 #define GETLINE_LINESIZE 1000	// Peut être changé à souhait [3;+oo]
-char* getline(FILE* in, int *size)
+char* getline2(FILE* in, int *size)
 {
 	char *buffer, line[GETLINE_LINESIZE], *ret;
 	int lsize, pos;

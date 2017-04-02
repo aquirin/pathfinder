@@ -9,7 +9,7 @@
 #CFLAGS =  -g -c -O0
 
 # Normal way
-CFLAGS =  -c -O3
+CFLAGS =  -c -O3 -Wall
 
 # Ficheros .c
 

@@ -113,9 +113,9 @@ void Input(int argc, char *argv[]){
 
   FILE *fich;
   int i, j;
-  char cadena[256];
+  char cadena[1024];
   float aux;
-  double factor;
+  //double factor;
   float minimo = -1;
 
   if(argc>3){
@@ -134,7 +134,11 @@ void Input(int argc, char *argv[]){
   		}
        }
 
-  fscanf(fich, ENTRADA_1, &num_nodos);	//lee el numero de nodos
+  int ret = fscanf(fich, ENTRADA_1, &num_nodos);	//lee el numero de nodos
+  if(ret==0) {
+	printf("\n[ERROR] - Apertura del fichero %s incorrecta.\n", argv[1]);
+	exit(2);
+  }
   printf(ENTRADA_1, num_nodos);		    //Mostramos por pantalla el numero de nodos
 
   if(argc == 3)
@@ -143,11 +147,19 @@ void Input(int argc, char *argv[]){
   	q = num_nodos -1;
 
   for (i=0; i<num_nodos+1;i++){		//obviamos la informacion de cada nodo
-  	fgets(cadena, 1024, fich);
+  	char* retc = fgets(cadena, 1024, fich);
+	  if(retc==NULL) {
+		printf("\n[ERROR] - Apertura del fichero %s incorrecta.\n", argv[1]);
+		exit(2);
+	  }
 	printf("%s", cadena);
 	}
 
-  fgets(cadena, 1024, fich);
+  char* retc = fgets(cadena, 1024, fich);
+  if(retc==NULL) {
+	printf("\n[ERROR] - Apertura del fichero %s incorrecta.\n", argv[1]);
+	exit(2);
+  }
   printf("*edges\n");
 
   d1 = Matriz_dinamica_float(num_nodos, num_nodos);
@@ -172,7 +184,11 @@ void Input(int argc, char *argv[]){
   if(strncmp(cadena,"*matrix",7)==0 || strncmp(cadena,"*Matrix",7)==0 || strncmp(cadena,"*MATRIX",7)==0){
 	for(i=0; i<num_nodos; i++)
 		for(j=0; j<num_nodos; j++){
-			fscanf(fich,"%f",&aux);
+			int ret = fscanf(fich,"%f",&aux);
+			  if(ret==0) {
+				printf("\n[ERROR] - Apertura del fichero %s incorrecta.\n", argv[1]);
+				exit(2);
+			  }
 			if(aux!=0){
 				pesos_originales[i][j] = aux;
 				if(aux > minimo)
@@ -232,7 +248,7 @@ void Input(int argc, char *argv[]){
 /***************************************************************************************/
 void sumasims(float **ac, float **s, float **r){
   int j,k,z;
-  float maximo, minimo_local, minimo;
+  float maximo, minimo_local;
 
  	for(j=0;j<num_nodos;j++){
 		for(k=0;k<num_nodos;k++){
@@ -316,7 +332,7 @@ void binary (){
 
 
 int _main(int argc, char *argv[]){
-  int i, j, r;
+  int i, j;
 
   Input(argc,argv);
 
@@ -340,8 +356,7 @@ int _main(int argc, char *argv[]){
 
 
 int main(int argc, char *argv[]){
-	int r;
-	
+
 //#if CHRONOMETER_ALL == 0
   _main(argc, argv);
 /*#else

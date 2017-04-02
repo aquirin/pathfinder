@@ -13,6 +13,7 @@ Parameters:
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/time.h>
 
 #define SIZE_MAX 1000000
 #define INFINITY 1000		// Value used to code a non-link between 2 nodes

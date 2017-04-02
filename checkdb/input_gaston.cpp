@@ -5,7 +5,7 @@ Database gaston_database;
 
 
 void Database::read ( FILE *input ) {
-  Tid tid;
+  //Tid tid;
   Tid tid2 = 0; 
 
   char array[100];
@@ -54,8 +54,8 @@ void Database::readTree ( FILE *input, Tid tid ) {
   trees.push_back ( tree );
 
   char command;
-  int dummy;
-  int nodessize = 0, edgessize = 0;
+  unsigned int dummy;
+  unsigned int nodessize = 0, edgessize = 0;
   command = readcommand ( input );
   
   static vector<DatabaseTreeNode> nodes;
@@ -96,7 +96,7 @@ void Database::readTree ( FILE *input, Tid tid ) {
   tree->nodes.reserve ( nodessize );
   if ( edges.size () < nodessize )
     edges.resize ( nodessize );
-  for ( int i = 0; i < nodessize; i++ ) {
+  for ( unsigned int i = 0; i < nodessize; i++ ) {
     edges[i].resize ( 0 );
     tree->nodes.push_back ( nodes[i] );
   }
@@ -148,7 +148,7 @@ void Database::readTree ( FILE *input, Tid tid ) {
 
   tree->edges = new DatabaseTreeEdge[edgessize * 2];
   int pos = 0;
-  for ( int i = 0; i < nodessize; i++ ) {
+  for ( unsigned int i = 0; i < nodessize; i++ ) {
     int s = edges[i].size ();
     tree->nodes[i].edges._size = s;
     tree->nodes[i].edges.array = tree->edges + pos;
@@ -157,14 +157,14 @@ void Database::readTree ( FILE *input, Tid tid ) {
     }
   }
   
-  static vector<int> nodestack;
+  static vector<unsigned int> nodestack;
   static vector<bool> visited1, visited2;
   nodestack.resize ( 0 );
   visited1.resize ( 0 );
   visited1.resize ( nodessize, false );
   visited2.resize ( 0 );
   visited2.resize ( nodessize, false );
-  for ( int i = 0; i < nodessize; i++ ) {
+  for ( unsigned int i = 0; i < nodessize; i++ ) {
     if ( !visited1[i] ) {
       nodestack.push_back ( i );
       visited1[i] = visited2[i] = true;
@@ -175,7 +175,7 @@ void Database::readTree ( FILE *input, Tid tid ) {
   }
 }
 
-void Database::determineCycledNodes ( DatabaseTreePtr tree, vector<int> &nodestack, vector<bool> &visited1, vector<bool> &visited2 ) {
+void Database::determineCycledNodes ( DatabaseTreePtr tree, vector<unsigned int> &nodestack, vector<bool> &visited1, vector<bool> &visited2 ) {
   int node = nodestack.back ();
   pvector<DatabaseTreeEdge> &edges = tree->nodes[node].edges;
 
@@ -201,7 +201,7 @@ void Database::determineCycledNodes ( DatabaseTreePtr tree, vector<int> &nodesta
 }
 
 void Database::edgecount () {
-  for ( int i = 0; i < edgelabels.size (); i++ ) {
+  for ( unsigned int i = 0; i < edgelabels.size (); i++ ) {
     if ( edgelabels[i].frequency >= gaston_minfreq ) {
       nodelabels[edgelabels[i].tonodelabel].frequentedgelabels.push_back ( i );
       if ( edgelabels[i].fromnodelabel != edgelabels[i].tonodelabel )
@@ -226,7 +226,7 @@ bool operator< ( const DatabaseTreeEdge &a, const DatabaseTreeEdge &b ) {
 void Database::reorder () {
   edgelabelsindexes.reserve ( edgelabels.size () );
 
-  for ( int i = 0; i < edgelabels.size (); i++ ) {
+  for ( unsigned int i = 0; i < edgelabels.size (); i++ ) {
     if ( edgelabels[i].frequency >= gaston_minfreq )
       edgelabelsindexes.push_back ( i );
   }
@@ -235,7 +235,7 @@ void Database::reorder () {
    // however, this does not seem to make a lot of difference on the databases that we tried.
    // We don't know yet why - in similar other algorithms it seemed a good idea...
 
-  for ( int i = 0; i < edgelabelsindexes.size (); i++ ) {
+  for ( unsigned int i = 0; i < edgelabelsindexes.size (); i++ ) {
     edgelabels[edgelabelsindexes[i]].edgelabel = i; // fill in the final edge labels
 #ifdef DEBUG
     DatabaseEdgeLabel &label = edgelabels[edgelabelsindexes[i]];
@@ -277,12 +277,12 @@ void Database::reorder () {
 }
 
 void Database::printTrees () {
-  for ( int i = 0; i < trees.size (); i++ )
+  for ( unsigned int i = 0; i < trees.size (); i++ )
     cout << trees[i];
 }
 
 Database::~Database () {
-  for ( int i = 0; i < trees.size (); i++ )
+  for ( unsigned int i = 0; i < trees.size (); i++ )
     delete trees[i];
 }
 
@@ -336,24 +336,24 @@ vector<Graph*> open_gaston_file(GLOBAL* gP, FILE* fin) {
 		Graph *G = new Graph(Graph::EDGE_LIST_MODE);
 		
 	  // Total number of nodes
-	  int num_nodes = gaston_database.trees[ng]->nodes.size();
+	  unsigned int num_nodes = gaston_database.trees[ng]->nodes.size();
 	  
 	  // Read the name of each node
-	  for(int n=0; n<num_nodes; n++) {
+	  for(unsigned int n=0; n<num_nodes; n++) {
 	  	int nlabel = gaston_database.trees[ng]->nodes[n].nodelabel;
 		sprintf(buffer, "%d", nlabel);
 	  	G->add_node(buffer);
 	  }
 	  
 	  // Read each edge
-		for(int n=0; n<num_nodes; n++) {
+		for(unsigned int n=0; n<num_nodes; n++) {
 	  		// Current number of edges
 	  		int num_edges = gaston_database.trees[ng]->nodes[n].edges.size();
 
 			for(int e=0; e<num_edges; e++) {
 				EdgeLabel edgelabel = gaston_database.trees[ng]->nodes[n].edges[e].edgelabel;
 				NodeId tonode = gaston_database.trees[ng]->nodes[n].edges[e].tonode;
-				int tonlabel = gaston_database.trees[ng]->nodes[tonode].nodelabel;
+				//int tonlabel = gaston_database.trees[ng]->nodes[tonode].nodelabel;
 				
 				if(n<tonode) {
 					sprintf(buffer, "%d", edgelabel);

@@ -22,11 +22,13 @@ vector<Graph*> open_ffsm_file(GLOBAL* gP, FILE* fin) {
 	int e_graph, e_node1, e_node2, e_label;
 	int ret;
 	char* cret;
-	int last_n_graph;
+	int last_n_graph = -1;
 	Graph *G = NULL;
 	
 	while(true) {
 		cret = fgets(buffer, 100, fin);
+		if(cret==NULL)
+			break;
 		ret = sscanf(buffer, "node %d %d %d\n", &n_graph, &n_node, &n_label);
 		if(ret != 0) {
 			// Read a node entry

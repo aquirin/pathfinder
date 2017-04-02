@@ -90,7 +90,7 @@ char* Vector_char(int nfils)
 {
 
    char*matriz;
-   int i,j,error=0;
+   //int i,j,error=0;
    /*reservo memoria para un vector de nfil punteros a enteros largos*/
    if((matriz=(char*)calloc(nfils,sizeof(char)))==NULL){
        printf("Error en la asignacion de memoria");
@@ -101,7 +101,7 @@ char* Vector_char(int nfils)
 
 void Libera_vector_char (char *matriz)
 {
-   int i;
+   //int i;
 
    free (matriz);
 }

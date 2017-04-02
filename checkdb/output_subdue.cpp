@@ -13,7 +13,7 @@ void write_subdue_file(GLOBAL* gP, vector<Graph*> DB) {
 	char *s1;	// Help for the output
 	int limit1, limit2;	// Help for the output
 
-	for(int ng=0; ng<DB.size(); ng++) {
+	for(unsigned int ng=0; ng<DB.size(); ng++) {
 
 		FILE *fout;
 		if(gP->filename_output == NULL) {
@@ -138,7 +138,7 @@ containing the fist node (node[0]) will be printed.
 
 void print_sorted_edge(GLOBAL *gP, Graph *G, FILE *fout)
 {
-	int i, gr, num_grey=1, num_black=0, cycle=0;
+	int i, gr, num_grey=1; //num_black=0, cycle=0;
 	char* color = Vector_char(G->nodes());
 
 	for(i=0;i<G->nodes();i++)

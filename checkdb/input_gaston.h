@@ -66,9 +66,9 @@ struct LegOccurrences {
   vector<LegOccurrence> elements;
   LegOccurrencesPtr parent;
   int number;
+  Frequency frequency;
   Frequency selfjoin;
   short unsigned int maxdegree;
-  Frequency frequency;
   LegOccurrences () : frequency ( 0 ), selfjoin ( 0 ) { }
 };
 
@@ -185,7 +185,7 @@ class Database {
     ~Database ();
   private:
     void readTree ( FILE *input, Tid tid );
-    void determineCycledNodes ( DatabaseTreePtr tree, vector<int> &nodestack, vector<bool> &visited1, vector<bool> &visited2 );
+    void determineCycledNodes ( DatabaseTreePtr tree, vector<unsigned int> &nodestack, vector<bool> &visited1, vector<bool> &visited2 );
 };
 
 extern Database gaston_database;

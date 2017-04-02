@@ -25,7 +25,7 @@ Read the core part (definition of the edges)
 ***/
 void open_net(FILE* fich, Graph* G)
 {
-  int i, j, k;
+  int i, j;
   float aux;
   char cadena[1025];
   
@@ -291,10 +291,10 @@ vector<Graph*> open_pajek_file(GLOBAL* gP, FILE* fin) {
   Graph *G;
   
   // MISC
-  int i, j;
+  int i;
   char cadena[1025];
   char *pos1, *pos2;
-  char *buffer;
+  //char *buffer;
   int non_recognized = 0;	// Number of nodes having non recognized categories
 
   // Allocation of the graph
